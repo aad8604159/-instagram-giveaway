@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname,"public")));
 function requireConfig(res){if(!CLIENT_ID||!CLIENT_SECRET)return res.status(500).json({error:"尚未設定 INSTAGRAM_APP_ID / INSTAGRAM_APP_SECRET"});}
 async function postForm(url,body){const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(body)});const d=await r.json();if(!r.ok||d.error_type||d.error)throw new Error(d.error_message||d.error?.message||`HTTP ${r.status}`);return d}
 async function graph(pathname,params={}){const token=params.access_token||global.__NO__;const p={...params};delete p.access_token;const u=new URL(`${API_BASE}/${API_VERSION}/${pathname}`);Object.entries(p).forEach(([k,v])=>u.searchParams.set(k,v));const r=await fetch(u,{headers:{Authorization:`Bearer ${token}`}});const d=await r.json();if(!r.ok||d.error)throw new Error(d.error?.message||`Graph API HTTP ${r.status}`);return d}
-function shortcode(url){const m=url.match(/instagram\\.com\\/(?:p|reel|tv)\\/([^/?#]+)/i);return m?m[1]:null}
+function shortcode(url){const m=url.match(/instagram\.com\/(?:p|reel|tv)\/([^/?#]+)/i);return m?m[1]:null}
 
 app.get("/auth/instagram",(req,res)=>{
  requireConfig(res);
