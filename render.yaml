@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: ig-comment-lottery
+    runtime: docker
+    plan: free
+    envVars:
+      - key: INSTAGRAM_APP_ID
+        sync: false
+      - key: INSTAGRAM_APP_SECRET
+        sync: false
+      - key: INSTAGRAM_REDIRECT_URI
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: GRAPH_API_VERSION
+        value: v26.0
