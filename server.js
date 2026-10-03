@@ -20,7 +20,15 @@ app.get("/auth/instagram",(req,res)=>{
  const u=new URL("https://www.instagram.com/oauth/authorize");
  u.searchParams.set("client_id",CLIENT_ID);u.searchParams.set("redirect_uri",REDIRECT_URI);u.searchParams.set("response_type","code");
  u.searchParams.set("scope","instagram_business_basic,instagram_business_manage_comments");u.searchParams.set("state",state);
- res.redirect(u.toString());
+console.log("OAUTH DEBUG", {
+  oauthHost: u.host,
+  oauthPath: u.pathname,
+  clientId: CLIENT_ID,
+  redirectUri: REDIRECT_URI,
+  scope: u.searchParams.get("scope")
+});
+
+res.redirect(u.toString());
 });
 app.get("/auth/instagram/callback",async(req,res)=>{
  try{
