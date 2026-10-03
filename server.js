@@ -46,7 +46,7 @@ app.get("/api/comments",async(req,res)=>{
   const code=shortcode(req.query.url||"");if(!code)return res.status(400).json({error:"不是有效的 Instagram 貼文網址"});
   const s=req.session.ig;
   const media=await allPages("me/media",{fields:"id,permalink,caption,media_type,timestamp",limit:"100"},s.accessToken);
-  const target=media.find(x=>x.permalink===req.query.url||x.permalink?.replace(/\\/$/,"")===req.query.url.replace(/\\/$/,"")||x.permalink?.includes(`/p/${code}/`)||x.permalink?.includes(`/reel/${code}/`));
+const target=media.find(x=>x.permalink===req.query.url||x.permalink?.replace(/\/$/,"")===req.query.url.replace(/\/$/,"")||x.permalink?.includes(`/p/${code}/`)||x.permalink?.includes(`/reel/${code}/`));
   if(!target)return res.status(404).json({error:"找不到這篇貼文。Instagram API 只能讀取目前授權專業帳號擁有的媒體。"});
   const comments=await allPages(`${target.id}/comments`,{fields:"id,text,username,timestamp,from",limit:"100"},s.accessToken);
   res.json({media:target,comments});
