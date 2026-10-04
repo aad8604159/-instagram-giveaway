@@ -1,84 +1,845 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>IG 留言抽獎工具</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;background:#f5f5f7;color:#222}.wrap{max-width:1050px;margin:28px auto;padding:0 18px}.card{background:#fff;border-radius:20px;padding:24px;margin-bottom:18px;box-shadow:0 6px 25px #0000000d}h1{margin:0 0 7px;font-size:30px}.sub{color:#777;margin-bottom:18px}h2{font-size:20px}label{font-weight:700;display:block;margin:14px 0 7px}input[type=text],input[type=number]{width:100%;padding:12px 13px;border:1px solid #ddd;border-radius:11px;font-size:15px}button{border:0;border-radius:11px;padding:12px 18px;font-weight:700;cursor:pointer;background:#111;color:#fff}.btn2{background:#eee;color:#222}.login{background:#e1306c}.top{display:flex;justify-content:space-between;gap:12px;align-items:center}.badge{display:inline-block;padding:7px 10px;border-radius:99px;background:#eee;font-size:13px}.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}.checks{display:grid;gap:11px;margin-top:10px}.checks label{font-weight:500;margin:0}.checks input{margin-right:8px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#f7f7f8;border-radius:14px;padding:15px}.stat b{display:block;font-size:25px;margin-top:5px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.status{padding:12px;border-radius:10px;background:#f4f4f5;color:#555;margin-top:14px;white-space:pre-wrap}.danger{color:#b42318;background:#fff1f0}.ok{color:#087f23;background:#effbf2}#winners{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.winner{padding:18px;border-radius:15px;background:#faf0ff;border:1px solid #ead5ff}.winner strong{font-size:18px}.small{font-size:13px;color:#888}@media(max-width:700px){.row,.stats{grid-template-columns:1fr 1fr}.top{align-items:flex-start;flex-direction:column}h1{font-size:25px}}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;
+  background:#f6f7fb;
+  color:#222;
+}
+
+.container{
+  max-width:720px;
+  margin:auto;
+  padding:25px 16px 50px;
+}
+
+.card{
+  background:#fff;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
+
+h2{
+  font-size:19px;
+  margin:0 0 15px;
+}
+
+.desc{
+  color:#777;
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin:15px 0 7px;
+}
+
+input[type="text"],
+input[type="number"],
+textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  outline:none;
+}
+
+textarea{
+  min-height:170px;
+  resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+  border-color:#777;
+}
+
+.upload{
+  border:2px dashed #ddd;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  background:#fafafa;
+}
+
+.upload input{
+  margin-top:12px;
+  max-width:100%;
+}
+
+.row{
+  display:flex;
+  gap:12px;
+}
+
+.row>div{
+  flex:1;
+}
+
+.check{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:15px;
+}
+
+.check input{
+  width:18px;
+  height:18px;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:14px;
+  margin-top:15px;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.draw{
+  background:#222;
+  color:white;
+}
+
+.secondary{
+  background:#eee;
+  color:#222;
+}
+
+.status{
+  margin-top:12px;
+  padding:10px;
+  background:#f1f2f5;
+  border-radius:10px;
+  color:#666;
+  display:none;
+}
+
+.result{
+  display:none;
+  text-align:center;
+}
+
+.winner{
+  padding:20px 5px;
+  border-bottom:1px solid #eee;
+}
+
+.number{
+  font-size:14px;
+  color:#888;
+}
+
+.username{
+  font-size:29px;
+  font-weight:bold;
+  margin:7px 0;
+}
+
+.comment{
+  color:#666;
+  word-break:break-word;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  border-radius:20px;
+  background:#eee;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.small{
+  color:#777;
+  font-size:13px;
+  line-height:1.6;
+}
+
+@media(max-width:500px){
+  .row{
+    flex-direction:column;
+    gap:0;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-<div class="card">
-<div class="top"><div><h1>🎉 IG 留言抽獎工具</h1><div class="sub">登入你的 Instagram 專業帳號後，貼上自己的貼文連結即可載入留言。</div></div><div id="account"><span class="badge">尚未登入</span></div></div>
-<div class="actions"><button class="login" onclick="login()">Instagram 登入／授權</button><button class="btn2" onclick="logout()">登出</button></div>
-<div id="loginStatus" class="status">尚未授權 Instagram。</div>
+
+<div class="container">
+
+  <div class="card">
+    <span class="badge">🎁 IG 留言抽獎</span>
+
+    <h1>IG 留言抽獎工具</h1>
+
+    <div class="desc">
+      匯入 Instagram 留言後，快速隨機抽出中獎者。
+    </div>
+
+    <label>Instagram 貼文網址（選填）</label>
+
+    <input
+      id="postUrl"
+      type="text"
+      placeholder="https://www.instagram.com/p/..."
+    >
+  </div>
+
+
+  <div class="card">
+
+    <h2>① 匯入留言</h2>
+
+    <div class="upload">
+
+      <strong>📁 上傳 CSV 或 TXT</strong>
+
+      <div class="small">
+        CSV 建議格式：username,comment
+      </div>
+
+      <input
+        id="fileInput"
+        type="file"
+        accept=".csv,.txt"
+      >
+
+    </div>
+
+
+    <label>或直接貼上留言</label>
+
+    <textarea
+      id="comments"
+      placeholder="例如：
+
+alice,我想參加！
+bob,抽我抽我！
+charlie,希望可以中獎！
+david,參加抽獎"
+    ></textarea>
+
+    <div id="status" class="status"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>② 抽獎設定</h2>
+
+    <div class="row">
+
+      <div>
+
+        <label>中獎人數</label>
+
+        <input
+          id="winnerCount"
+          type="number"
+          min="1"
+          value="1"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>關鍵字（選填）</label>
+
+        <input
+          id="keyword"
+          type="text"
+          placeholder="例如：參加"
+        >
+
+      </div>
+
+    </div>
+
+
+    <label class="check">
+
+      <input
+        id="onePerUser"
+        type="checkbox"
+        checked
+      >
+
+      每個帳號最多中獎一次
+
+    </label>
+
+
+    <button
+      class="draw"
+      id="drawButton"
+    >
+      🎉 開始抽獎
+    </button>
+
+
+    <button
+      class="secondary"
+      id="clearButton"
+    >
+      清除重新開始
+    </button>
+
+  </div>
+
+
+  <div
+    class="card result"
+    id="result"
+  >
+
+    <span class="badge">
+      🎉 抽獎結果
+    </span>
+
+    <div id="winners"></div>
+
+    <button
+      class="draw"
+      id="againButton"
+    >
+      再抽一次
+    </button>
+
+  </div>
+
 </div>
 
-<div class="card">
-<label>Instagram 貼文連結</label>
-<input id="url" type="text" placeholder="https://www.instagram.com/p/xxxxxxxx/">
-<div class="actions"><button onclick="loadComments()">📥 載入留言</button><button class="btn2" onclick="loadDemo()">載入測試留言</button></div>
-<div id="status" class="status">請先登入 Instagram，再載入留言。</div>
-</div>
 
-<div class="card">
-<h2>⚙️ 抽獎條件</h2>
-<div class="row">
-<div><label>最少標記人數</label><input id="minTags" type="number" min="0" value="3"><div class="small">你可以自行設定，例如 1、3、5、10。</div></div>
-<div><label>得獎人數</label><input id="winnerCount" type="number" min="1" value="3"></div>
-</div>
-<div class="checks">
-<label><input id="requireTags" type="checkbox" checked> 必須標記好友</label>
-<label><input id="dedupe" type="checkbox" checked> 重複留言僅保留一條</label>
-<label><input id="oneWin" type="checkbox" checked> 每位只能中獎一次</label>
-<label><input id="keywordOn" type="checkbox"> 必須包含指定文字</label>
-</div>
-<input id="keyword" type="text" placeholder="例如：生日快樂" style="margin-top:10px;display:none">
-<div class="actions"><button onclick="applyFilters()">套用篩選</button><button class="btn2" onclick="draw()">🎲 開始抽獎</button></div>
-</div>
-
-<div class="card"><h2>📊 資料統計</h2><div class="stats"><div class="stat">原始留言<b id="total">0</b></div><div class="stat">符合資格<b id="eligible">0</b></div><div class="stat">不重複參加者<b id="participants">0</b></div><div class="stat">得獎人數<b id="won">0</b></div></div></div>
-
-<div class="card"><h2>🏆 得獎結果</h2><div id="winners"><div class="small">尚未抽獎。</div></div><div class="actions"><button class="btn2" onclick="exportCSV()">匯出結果 CSV</button></div></div>
-</div>
 <script>
-let raw=[],eligible=[],winners=[];const $=id=>document.getElementById(id);
-$('keywordOn').addEventListener('change',()=>{$('keyword').style.display=$('keywordOn').checked?'block':'none'});
-function setStatus(s,cls=''){ $('status').textContent=s;$('status').className='status '+cls }
-function normalize(x){return(x||'').trim().toLowerCase()}
-function countTags(text){const m=(text||'').match(/@[A-Za-z0-9._]+/g)||[];return new Set(m.map(x=>x.slice(1).toLowerCase())).size}
-function usernameOf(c){return c.username||c.from?.username||c.user?.username||'unknown'}
-function applyFilters(){
- const min=Number($('minTags').value)||0,need=$('requireTags').checked,dedupe=$('dedupe').checked,keyOn=$('keywordOn').checked,key=normalize($('keyword').value);
- let arr=raw.filter(c=>{const t=c.text||'';if(need&&countTags(t)<min)return false;if(keyOn&&(!key||!normalize(t).includes(key)))return false;return true});
- if(dedupe){const seen=new Set();arr=arr.filter(c=>{const u=normalize(usernameOf(c));if(seen.has(u))return false;seen.add(u);return true})}
- eligible=arr;$('eligible').textContent=arr.length;$('participants').textContent=new Set(arr.map(usernameOf)).size;$('won').textContent=winners.length;
- setStatus(`篩選完成：${arr.length} 則留言、${new Set(arr.map(usernameOf)).size} 位參加者。`,'ok')
+
+let commentsData = [];
+
+
+/* =========================
+   CSV 解析
+========================= */
+
+function parseCSV(text){
+
+  const rows = [];
+
+  let row = [];
+  let cell = "";
+  let insideQuotes = false;
+
+  for(let i = 0; i < text.length; i++){
+
+    const char = text[i];
+    const next = text[i + 1];
+
+    if(char === '"'){
+
+      if(insideQuotes && next === '"'){
+
+        cell += '"';
+        i++;
+
+      }else{
+
+        insideQuotes = !insideQuotes;
+
+      }
+
+    }else if(char === ',' && !insideQuotes){
+
+      row.push(cell);
+      cell = "";
+
+    }else if(
+      (char === '\n' || char === '\r')
+      && !insideQuotes
+    ){
+
+      if(char === '\r' && next === '\n'){
+        i++;
+      }
+
+      row.push(cell);
+      cell = "";
+
+      if(row.some(x => x.trim() !== "")){
+        rows.push(row);
+      }
+
+      row = [];
+
+    }else{
+
+      cell += char;
+
+    }
+
+  }
+
+  if(cell !== "" || row.length){
+
+    row.push(cell);
+
+    if(row.some(x => x.trim() !== "")){
+      rows.push(row);
+    }
+
+  }
+
+  return rows;
+
 }
-function draw(){
- if(!raw.length){setStatus('請先載入留言。','danger');return}applyFilters();
- const n=Math.max(1,Number($('winnerCount').value)||1),one=$('oneWin').checked;
- let pool=[...eligible];if(one){const seen=new Set();pool=pool.filter(c=>{const u=normalize(usernameOf(c));if(seen.has(u))return false;seen.add(u);return true})}
- if(pool.length<n){setStatus(`符合資格的參加者只有 ${pool.length} 人，無法抽出 ${n} 位。`,'danger');return}
- winners=[];while(winners.length<n)winners.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]);
- $('won').textContent=winners.length;$('winners').innerHTML=winners.map((c,i)=>`<div class="winner"><div class="small">第 ${i+1} 位</div><strong>@${esc(usernameOf(c))}</strong><div class="small" style="margin-top:8px">${esc(c.text||'')}</div></div>`).join('');
+
+
+/* =========================
+   將資料轉成留言
+========================= */
+
+function convertToComments(text){
+
+  const rows = parseCSV(text.trim());
+
+  if(!rows.length){
+    return [];
+  }
+
+  const firstRow =
+    rows[0].map(
+      x => x.trim().toLowerCase()
+    );
+
+  const usernameNames = [
+    "username",
+    "user",
+    "account",
+    "帳號",
+    "使用者名稱"
+  ];
+
+  const commentNames = [
+    "comment",
+    "comments",
+    "text",
+    "留言",
+    "內容"
+  ];
+
+  let usernameIndex =
+    firstRow.findIndex(
+      x => usernameNames.includes(x)
+    );
+
+  let commentIndex =
+    firstRow.findIndex(
+      x => commentNames.includes(x)
+    );
+
+
+  const hasHeader =
+    usernameIndex >= 0 ||
+    commentIndex >= 0;
+
+
+  if(hasHeader){
+
+    if(usernameIndex < 0){
+      usernameIndex = 0;
+    }
+
+    if(commentIndex < 0){
+      commentIndex = 1;
+    }
+
+    return rows
+      .slice(1)
+      .map(row => ({
+
+        username:
+          (row[usernameIndex] || "").trim(),
+
+        text:
+          (row[commentIndex] || "").trim()
+
+      }))
+      .filter(
+        x => x.username || x.text
+      );
+
+  }
+
+
+  return rows
+    .map(row => ({
+
+      username:
+        (row[0] || "").trim(),
+
+      text:
+        row.slice(1).join(",").trim()
+
+    }))
+    .filter(
+      x => x.username || x.text
+    );
+
 }
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-async function refreshAuth(){
- try{const r=await fetch('/api/auth/me');const d=await r.json();if(d.loggedIn){$('account').innerHTML='<span class="badge">已登入 @'+esc(d.username||'Instagram')+'</span>';$('loginStatus').textContent='Instagram 已授權，可以載入留言。';$('loginStatus').className='status ok'}}
- catch(e){}
+
+
+/* =========================
+   更新留言數量
+========================= */
+
+function updateStatus(){
+
+  const status =
+    document.getElementById("status");
+
+  if(commentsData.length){
+
+    status.style.display = "block";
+
+    status.textContent =
+      `目前已載入 ${commentsData.length} 則留言`;
+
+  }else{
+
+    status.style.display = "none";
+
+  }
+
 }
-function login(){location.href='/auth/instagram'}
-async function logout(){await fetch('/auth/logout',{method:'POST'});location.reload()}
-async function loadComments(){
- const url=$('url').value.trim();if(!url){setStatus('請先貼上 IG 貼文連結。','danger');return}
- setStatus('正在取得留言……');
- try{const r=await fetch('/api/comments?url='+encodeURIComponent(url));const d=await r.json();if(!r.ok)throw new Error(d.error||'取得留言失敗');raw=d.comments||[];$('total').textContent=raw.length;winners=[];$('won').textContent=0;applyFilters();setStatus(`已載入 ${raw.length} 則留言。`,'ok')}
- catch(e){setStatus('無法取得 IG 留言：'+e.message,'danger')}
+
+
+/* =========================
+   讀取檔案
+========================= */
+
+document
+  .getElementById("fileInput")
+  .addEventListener("change", async function(){
+
+    const file = this.files[0];
+
+    if(!file){
+      return;
+    }
+
+    const text =
+      await file.text();
+
+    document
+      .getElementById("comments")
+      .value = text;
+
+    commentsData =
+      convertToComments(text);
+
+    updateStatus();
+
+  });
+
+
+/* =========================
+   手動貼上留言
+========================= */
+
+document
+  .getElementById("comments")
+  .addEventListener("input", function(){
+
+    commentsData =
+      convertToComments(this.value);
+
+    updateStatus();
+
+  });
+
+
+/* =========================
+   隨機排序
+========================= */
+
+function shuffle(array){
+
+  const result =
+    array.slice();
+
+  for(
+    let i = result.length - 1;
+    i > 0;
+    i--
+  ){
+
+    const j =
+      Math.floor(
+        Math.random() * (i + 1)
+      );
+
+    [
+      result[i],
+      result[j]
+    ] = [
+      result[j],
+      result[i]
+    ];
+
+  }
+
+  return result;
+
 }
-function loadDemo(){raw=[{username:'alice',text:'@bob @cat @dog 我要參加！'},{username:'bob',text:'@alice @cat 好期待！'},{username:'alice',text:'@bob @cat @dog 再留言一次'},{username:'cindy',text:'@alice @bob @david 生日快樂'},{username:'david',text:'@alice @bob @cindy 生日快樂'},{username:'eva',text:'@alice @bob 生日快樂'},{username:'frank',text:'@alice @bob @cindy @david 生日快樂'},{username:'gina',text:'@alice @bob @cindy 生日快樂'}];$('total').textContent=raw.length;winners=[];$('won').textContent=0;applyFilters();setStatus('已載入測試留言。','ok')}
-function exportCSV(){if(!winners.length){alert('目前沒有抽獎結果');return}const rows=[['順位','Instagram帳號','留言']];winners.forEach((c,i)=>rows.push([i+1,usernameOf(c),c.text||'']));const csv='\\ufeff'+rows.map(r=>r.map(x=>`"${String(x).replaceAll('"','""')}"`).join(',')).join('\\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='ig抽獎結果.csv';a.click()}
-refreshAuth();
+
+
+/* =========================
+   HTML 安全處理
+========================= */
+
+function escapeHTML(text){
+
+  return String(text).replace(
+    /[&<>"']/g,
+    function(char){
+
+      const map = {
+
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+
+      };
+
+      return map[char];
+
+    }
+  );
+
+}
+
+
+/* =========================
+   開始抽獎
+========================= */
+
+function drawLottery(){
+
+  commentsData =
+    convertToComments(
+      document.getElementById("comments").value
+    );
+
+
+  if(!commentsData.length){
+
+    alert("請先匯入留言。");
+
+    return;
+
+  }
+
+
+  const keyword =
+    document
+      .getElementById("keyword")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  let pool =
+    commentsData.filter(function(comment){
+
+      if(!keyword){
+        return true;
+      }
+
+      return comment.text
+        .toLowerCase()
+        .includes(keyword);
+
+    });
+
+
+  /* 每個帳號最多一次 */
+
+  if(
+    document
+      .getElementById("onePerUser")
+      .checked
+  ){
+
+    const used =
+      new Set();
+
+    pool =
+      pool.filter(function(comment){
+
+        const username =
+          comment.username
+            .trim()
+            .toLowerCase();
+
+        if(used.has(username)){
+          return false;
+        }
+
+        used.add(username);
+
+        return true;
+
+      });
+
+  }
+
+
+  const count =
+    Math.max(
+      1,
+      parseInt(
+        document.getElementById("winnerCount").value || 1,
+        10
+      )
+    );
+
+
+  if(!pool.length){
+
+    alert(
+      "符合條件的留言為 0，請調整抽獎條件。"
+    );
+
+    return;
+
+  }
+
+
+  const winners =
+    shuffle(pool)
+      .slice(
+        0,
+        Math.min(count, pool.length)
+      );
+
+
+  const winnersBox =
+    document.getElementById("winners");
+
+
+  winnersBox.innerHTML =
+    winners.map(function(winner, index){
+
+      return `
+
+        <div class="winner">
+
+          <div class="number">
+            第 ${index + 1} 位
+          </div>
+
+          <div class="username">
+            @${escapeHTML(
+              winner.username || "匿名"
+            )}
+          </div>
+
+          <div class="comment">
+            ${escapeHTML(
+              winner.text || "（無留言內容）"
+            )}
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  const result =
+    document.getElementById("result");
+
+  result.style.display = "block";
+
+  result.scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+}
+
+
+/* =========================
+   按鈕
+========================= */
+
+document
+  .getElementById("drawButton")
+  .addEventListener(
+    "click",
+    drawLottery
+  );
+
+
+document
+  .getElementById("againButton")
+  .addEventListener(
+    "click",
+    drawLottery
+  );
+
+
+document
+  .getElementById("clearButton")
+  .addEventListener(
+    "click",
+    function(){
+
+      document.getElementById("postUrl").value = "";
+
+      document.getElementById("comments").value = "";
+
+      document.getElementById("keyword").value = "";
+
+      document.getElementById("winnerCount").value = "1";
+
+      document.getElementById("fileInput").value = "";
+
+      document.getElementById("status").style.display = "none";
+
+      document.getElementById("result").style.display = "none";
+
+      commentsData = [];
+
+    }
+  );
+
 </script>
-</body></html>
+
+</body>
+</html>
